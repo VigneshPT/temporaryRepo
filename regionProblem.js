@@ -144,13 +144,11 @@ var getDataFromCMS = function(topicData,callback){
 	    		callback(err,null,scopedTopicData);
 		    }
 		    if (!err && response.statusCode == 200) {
-					//var $=cheerio.load(body);
-					//$('pre')
 					eval('var transObj='+(data).replace(/^var Obj=/,''));
 					console.log(JSON.stringify(transObj));
-					//callback(null,transObj,filename);
+					
 					callback(null,transObj,scopedTopicData);
-					//callback(null,transObj.Bdy);
+					
 		    }
 		}
 	})(topicData));
