@@ -33,7 +33,8 @@ var topicLoop = function(xmlWriter,writeStream,resxLang,legacyLang,topicObj){
 			request({
 				'url':url,
 				'encoding':'binary'
-				},(function(topicData,xmlWriter,writeStream,isLastTopic){
+				},
+				(function(topicData,xmlWriter,writeStream,isLastTopic){
 				return function(err,response,data){
 
 					if(err) {
@@ -50,14 +51,29 @@ var topicLoop = function(xmlWriter,writeStream,resxLang,legacyLang,topicObj){
 								sourceEncoding = 'iso-8859-1';
 							console.log(sourceEncoding);
 							var iconv = new Iconv(sourceEncoding, 'UTF-8//IGNORE');
-							console.log(iconv.convert(transObj.Bdy).toString());
-							createXMLNode(xmlWriter,topicData.Name+"Title",iconv.convert(transObj.Title).toString());
-							createXMLNode(xmlWriter,topicData.Name+"Btitle",iconv.convert(transObj.BdyTitle).toString());
-							createXMLNode(xmlWriter,topicData.Name+"Bdy", iconv.convert(transObj.Bdy).toString());
-							if(isLastTopic){
-								//ws.end();
-								xmlWriter.endElement();
-								xmlWriter.endDocument();
+							try{
+								
+								var titleBuffer = new Buffer(transObj.Title,'binary');
+								var bodyTitleBuffer = new Buffer(transObj.BdyTitle, 'binary');
+								var bodyBuffer = new Buffer(transObj.Bdy,'binary');
+								//console.log(iconv.convert(bodyTitleBuffer).toString());
+								createXMLNode(xmlWriter,topicData.Name+"Title",iconv.convert(titleBuffer).toString());
+								createXMLNode(xmlWriter,topicData.Name+"Btitle",iconv.convert(bodyTitleBuffer).toString());
+								createXMLNode(xmlWriter,topicData.Name+"Bdy", iconv.convert(bodyBuffer).toString());
+								// console.log(transObj.Bdy.toString());
+								// createXMLNode(xmlWriter,topicData.Name+"Title",transObj.Title.toString());
+								// createXMLNode(xmlWriter,topicData.Name+"Btitle",transObj.BdyTitle.toString());
+								// createXMLNode(xmlWriter,topicData.Name+"Bdy", transObj.Bdy.toString());
+								if(isLastTopic){
+									//ws.end();
+									//xmlWriter.endElement();
+									xmlWriter.endDocument();
+								}
+							}
+							catch(err){
+
+								console.log(legacyLang+";"+transObj.Id+";"+err.message);
+								process.exit(1);
 							}
 
 				    }
@@ -134,7 +150,7 @@ for(var k = 0;k<revLangMap.length;k++){
 		};
 	})(ws));
 	xw.startDocument();
-	xw.startElement('root');
+	//xw.startElement('root');
 	initLoop(xw,ws,resxLang,legacyLang);
 	// xw = new XMLWriter(true,function(string,encoding){
 	// 	ws.write(string,encoding);
