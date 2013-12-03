@@ -1,0 +1,26 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'install' ]
+2 info using npm@1.3.14
+3 info using node@v0.10.22
+4 verbose readDependencies using package.json deps
+5 verbose install where, deps [ '/home/vigneshpt/Dev/cultureNotes/node_modules/iconv-jp', [] ]
+6 info preinstall iconv-jp@1.1.3
+7 verbose unsafe-perm in lifecycle true
+8 info iconv-jp@1.1.3 Failed to exec preinstall script
+9 error iconv-jp@1.1.3 preinstall: `node-gyp configure`
+9 error Exit status 1
+10 error Failed at the iconv-jp@1.1.3 preinstall script.
+10 error This is most likely a problem with the iconv-jp package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     node-gyp configure
+10 error You can get their info via:
+10 error     npm owner ls iconv-jp
+10 error There is likely additional logging output above.
+11 error System Linux 3.11.0-12-generic
+12 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install"
+13 error cwd /home/vigneshpt/Dev/cultureNotes/node_modules/iconv-jp
+14 error node -v v0.10.22
+15 error npm -v 1.3.14
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]

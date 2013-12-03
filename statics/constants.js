@@ -58,5 +58,21 @@ module.exports.CONSTANTS = {
         {"id":"11","Name":"TPHO","Topics": [{"Name":"TPHOn1","obj":"200075"},{"Name":"TPHOn2","obj":"200067"}]},
         {"id":"12","Name":"TIME","Topics": [{"Name":"TIMEn1","obj":"200081"},{"Name":"TIMEn2","obj":"200076"},{"Name":"TIMEn3","obj":"200068"},{"Name":"TIMEn4","obj":"200069"},{"Name":"TIMEn5","obj":"200070"}]},
         {"id":"13","Name":"TRV","Topics": [{"Name":"TRVn1","obj":"200071"},{"Name":"TRVn2","obj":"200077"}]}
-    ]
+    ],
+    encodingMap:{
+        "IT-IT": "iso-8859-1",
+        "TR-TR": "windows-1254",
+        "DE-DE": "iso-8859-1",
+        "PL-PL": "iso-8859-2",
+        "JA-JP": "shift-jis",
+        "ES-MX": "iso-8859-1",
+        "PT-BR": "iso-8859-1",
+        "ZH-TW": "big5",
+        "ES-ES": "iso-8859-1",
+        "RU-RU": "windows-1251",
+        "ZH-CN": "gb2312",
+        "FR-FR": "iso-8859-1",
+        "CZ-CZ": "windows-1250",
+        "KO-KO": "euc-kr"
+    }
 }

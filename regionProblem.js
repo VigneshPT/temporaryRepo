@@ -2,7 +2,8 @@ var XMLWriter = require('xml-writer')
 var Constants= require('./statics/constants').CONSTANTS;
 var fs = require('fs');
 var encoding = require('encoding');
-var iconv = require('iconv-js');
+var Iconv = require('iconv').Iconv;
+
 var request = require('request');
 createXMLNode = function(xmlWriter,name, value){
 	xmlWriter.startElement('data').
@@ -15,10 +16,10 @@ createXMLNode = function(xmlWriter,name, value){
 
 var topicObjs = Constants.topicObjectIds;
 var revLangMap = Constants.reverseLangMap;
-
+var encodingMap = Constants.encodingMap;
 
 var topicLoop = function(xmlWriter,writeStream,resxLang,legacyLang,topicObj){
-	for(var j=0;j<topicObjs[i].Topics.length;j++){ //loop through each topic inside category
+	for(var j=0;j<topicObj.Topics.length;j++){ //loop through each topic inside category
 
 			topicObj.Topics[j].legacyLang=legacyLang;
 			topicObj.Topics[j].resxLang = resxLang;
@@ -31,8 +32,7 @@ var topicLoop = function(xmlWriter,writeStream,resxLang,legacyLang,topicObj){
 			var isLastTopic = j==(topicObj.Topics.length-1);
 			request({
 				'url':url,
-				'encoding':'binary',
-				'headers':{'Content-Type': 'text/html,application/xhtml+xml,application/xml;charset=shift-jis'}
+				'encoding':'binary'
 				},(function(topicData,xmlWriter,writeStream,isLastTopic){
 				return function(err,response,data){
 
@@ -43,10 +43,17 @@ var topicLoop = function(xmlWriter,writeStream,resxLang,legacyLang,topicObj){
 				    if (!err && response.statusCode == 200) {
 
 							eval('var transObj='+(data).replace(/^var Obj=/,''));
-							console.log(iconv.fromSJIS(transObj.Bdy).toString());
-							createXMLNode(xmlWriter,topicData.Name+"Title",transObj.Title);
-							createXMLNode(xmlWriter,topicData.Name+"Btitle",transObj.BdyTitle);
-							createXMLNode(xmlWriter,topicData.Name+"Bdy", transObj.Bdy);
+							var sourceEncoding='';
+							if(legacyLang!='')
+								sourceEncoding = encodingMap[legacyLang];
+							else
+								sourceEncoding = 'iso-8859-1';
+							console.log(sourceEncoding);
+							var iconv = new Iconv(sourceEncoding, 'UTF-8//IGNORE');
+							console.log(iconv.convert(transObj.Bdy).toString());
+							createXMLNode(xmlWriter,topicData.Name+"Title",iconv.convert(transObj.Title).toString());
+							createXMLNode(xmlWriter,topicData.Name+"Btitle",iconv.convert(transObj.BdyTitle).toString());
+							createXMLNode(xmlWriter,topicData.Name+"Bdy", iconv.convert(transObj.Bdy).toString());
 							if(isLastTopic){
 								//ws.end();
 								xmlWriter.endElement();

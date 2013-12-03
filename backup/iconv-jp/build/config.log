@@ -1,0 +1,20 @@
+# project noname (1.0) configured on Mon Dec  2 20:24:06 2013 by
+# waf 1.5.16 (abi 7, python 20704f0 on linux2)
+# using /usr/bin/node-waf configure
+#
+
+----------------------------------------
+Setting srcdir to
+/home/shaulhameed/GEN/node_modules/iconv-jp
+
+----------------------------------------
+Setting blddir to
+/home/shaulhameed/GEN/node_modules/iconv-jp/build
+
+----------------------------------------
+Checking for node path 
+not found
+
+----------------------------------------
+Checking for node prefix 
+ok /usr
