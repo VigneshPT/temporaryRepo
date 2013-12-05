@@ -82,22 +82,25 @@ var formOutputJson = function(data,continentName,countryName,callback){
 		$('#p0').nextAll().each(function(i,element){
 			if($(element).is('div')){
 				var article  = {};
-				article.id = idCounter++;
+				//article.id = idCounter++;
 				article.title = $(element).find('h1').text();
-				var tempArticle = $(element).find('> div');
-				var imageNumber = 0;
-				$(tempArticle).find('img').each(function(index,imageTag){
-					var badUrl = $(imageTag).attr('src');
-					var extension = badUrl.match(/\..[^/]*$/g);
-					var goodUrl = badUrl.replace(/<%.*%>/g,'http://dev3.globalenglish.com/content/');
-					console.log(goodUrl);
-					var imageName = continentName+"."+countryName+"."+article.id+";"+(imageNumber++)+extension;
-					$(imageTag).attr('src','$serverUrl$'+imageName);
-					download(goodUrl,'./output/images/'+imageName);
-					//return;
-				});
-				article.body = $(tempArticle).html();
-				outputJson.articles.push(article);
+				if(article.title !=""){
+					var tempArticle = $(element).find('> div');
+					var imageNumber = 0;
+					article.id = idCounter++;
+					$(tempArticle).find('img').each(function(index,imageTag){
+						var badUrl = $(imageTag).attr('src');
+						var extension = badUrl.match(/\..[^/]*$/g);
+						var goodUrl = badUrl.replace(/<%.*%>/g,'http://dev3.globalenglish.com/content/');
+						console.log(goodUrl);
+						var imageName = continentName+"."+countryName+"."+article.id+";"+(imageNumber++)+extension;
+						$(imageTag).attr('src','$serverUrl$'+imageName);
+						download(goodUrl,'./output/images/'+imageName);
+						//return;
+					});
+					article.body = $(tempArticle).html();
+					outputJson.articles.push(article);
+				}
 			}
 		});
 		/*very specific to Culture Notes by Country data from CMS */

@@ -4,7 +4,7 @@ var cheerio = require('cheerio');
 BodyExtractor ={
 	//getWholeBodyFromJs : function(classId,objectId,filename,callback){
 	getWholeBodyFromJs:function(classId,objectId,continent,country,callback){
-		request(CONSTANTS.baseURL+"/"+classId+"/"+objectId+"/"+objectId+".js", function(err, response, data) {
+		request({url:CONSTANTS.baseURL+"/"+classId+"/"+objectId+"/"+objectId+".js",encoding:'binary'}, function(err, response, data) {
 		    if(err) {
 		    	console.log(err);
 		    	callback(err,null);
